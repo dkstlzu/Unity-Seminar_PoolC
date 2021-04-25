@@ -37,6 +37,8 @@ public enum FunctionName
     Reset,
     Start,
     FixedUpdate,
+    OnTriggerEnter,
+    OnCollisionEnter,
 
     OnMouseEnter,
     OnMouseExit,
@@ -104,6 +106,8 @@ public class LifeCycleTestMain : MonoBehaviour
     [Header("Components")]
     public Collider PubCollider;
     private Collider PriCollider;
+
+    public AnimationCurve curve;
     
 
     [Space(20)]
@@ -123,24 +127,22 @@ public class LifeCycleTestMain : MonoBehaviour
         // PubMono = new testClassMono();
         // PriMono = new testClassMono();
 
+        curve = new AnimationCurve(new Keyframe(0, 1), new Keyframe(0.4f, 0.4f, -1.8f, -1.2f), new Keyframe(1, 0));
     }
 
     void OnEnable()
     {
         CurrentFunction = FunctionName.OnEnable;
-
     }
 
     void Reset()
     {
         CurrentFunction = FunctionName.Reset;
-
     }
 
     void Start()
     {
         CurrentFunction = FunctionName.Start;
-        
     }
 
     void FixedUpdate()
@@ -150,6 +152,18 @@ public class LifeCycleTestMain : MonoBehaviour
             CurrentFunction = FunctionName.FixedUpdate;
         }
 
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(gameObject.name + " triggerenter " + other.gameObject.name);
+        CurrentFunction = FunctionName.OnTriggerEnter;
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        Debug.Log(gameObject.name + " collisionenter " + other.gameObject.name);
+        CurrentFunction = FunctionName.OnCollisionEnter;
     }
 
     void Update()

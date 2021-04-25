@@ -6,6 +6,7 @@ public class ComparingFixedUpdateAndUpdate : MonoBehaviour
 {
     public bool DoFixedUpdate;
     public bool UpdateWithDeltaTime;
+    public bool DoCompare;
 
     public static int FixedUpdatesBetweenUpdate = 0;
     public static int UpdatesBetweenFixedUpdate = 0;
@@ -19,7 +20,8 @@ public class ComparingFixedUpdateAndUpdate : MonoBehaviour
         if (DoFixedUpdate)
         {
             transform.Translate(Vector3.forward);
-            CountUpdate();
+            if (DoCompare)
+                CountUpdate();
         }
         
         FixedUpdatesBetweenUpdate++;
@@ -34,7 +36,8 @@ public class ComparingFixedUpdateAndUpdate : MonoBehaviour
             else
                 transform.Translate(Vector3.forward);
 
-            CountFixedUpdate();
+            if (DoCompare)
+                CountFixedUpdate();
         }
 
         UpdatesBetweenFixedUpdate++;
