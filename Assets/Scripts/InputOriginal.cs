@@ -28,7 +28,6 @@ public class InputOriginal : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Debug.Log("Mouse left");
-            Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
 
         if (Input.GetMouseButton(1))
