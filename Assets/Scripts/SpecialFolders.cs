@@ -31,6 +31,7 @@ public class SpecialFolders : MonoBehaviour
         if (GUI.Button(ResourceFolderRect, ResourceFolderPath))
         {
             ResourceObj = Resources.Load(ResourceFolderPath);
+            source.clip = (AudioClip)ResourceObj;
         }
 
         if (GUI.Button(ResourceSubFolderRect, ResourceSubFolderPath))
@@ -46,6 +47,25 @@ public class SpecialFolders : MonoBehaviour
         if (GUI.Button(StreamingAssetsSubFolderRect, StreamingAssetsSubFolderPath))
         {
             StreamingAssetsSubDirectoryObj = Resources.Load(StreamingAssetsSubFolderPath);
+        }
+    }
+
+    private AudioSource source;
+
+    void Start()
+    {
+        source = GetComponent<AudioSource>();
+        
+    }
+
+
+    public bool PlaySound;
+    void Update()
+    {
+        if (PlaySound)
+        {
+            source.Play();
+            PlaySound = false;
         }
     }
 }
