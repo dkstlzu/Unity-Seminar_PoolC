@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraRotate : MonoBehaviour
 {
     public float CameraSpeed = 3;
+    public RotateType rotateType;
     Vector3 CamRotaion;
     void Start()
     {
@@ -13,21 +14,33 @@ public class CameraRotate : MonoBehaviour
 
     void Update()
     {
-        print("X : " + Input.GetAxis("Mouse X"));
-        print("Y : " + Input.GetAxis("Mouse Y"));
         CamRotaion = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        print(CamRotaion);
-        if(Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+
+
+        Rotate();
+    }
+
+
+    void Rotate()
+    {
+        Vector3 vec = new Vector3(-CamRotaion.y, CamRotaion.x, 0) * CameraSpeed;
+        switch(rotateType)
         {
-            print("???");
+            case RotateType.Rotate:
+            transform.Rotate(vec);
+            break;
+
+            
+            case RotateType.EulerAngles:
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + vec);
+            break;
         }
     }
 
-    void FixedUpdate () {
-        float x = 5 * Input.GetAxis ("Mouse X");
-        float y = 5 * -Input.GetAxis ("Mouse Y");
-        Camera.main.transform.Rotate (x, y, 0);
-    
-    
+    public enum RotateType
+    {
+        Rotate,
+        EulerAngles,
+
     }
 }

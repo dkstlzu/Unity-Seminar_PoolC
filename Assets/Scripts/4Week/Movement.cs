@@ -8,14 +8,10 @@ public class Movement : MonoBehaviour
     public MoveType moveType;
     Vector3 MoveDirection;
     Rigidbody rb;
-    CharacterController controller;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        controller = gameObject.AddComponent<CharacterController>();
-        controller.center = new Vector3(0, 1, 0);
-        controller.enabled = false;
     }
     void Update()
     {
@@ -23,12 +19,15 @@ public class Movement : MonoBehaviour
         
         Move();
 
-        if (moveType == MoveType.CharacterController)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            controller.enabled = true;
-        } else
+            rb.velocity = Vector3.zero;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            controller.enabled = false;
+            print("forward : " + transform.forward);
+            print("right : " + transform.right);
         }
     }
 
@@ -53,12 +52,27 @@ public class Movement : MonoBehaviour
 
             case MoveType.AddForce:
             // Using Rigidbody.AddForce
-            rb.AddForce(MoveDirection * Time.deltaTime * MoveSpeed);
+            rb.AddForce(MoveDirection * Time.deltaTime * MoveSpeed * 10);
             break;
-            case MoveType
-            .CharacterController:
-            // Using CharacterController.Move
-            controller.Move(MoveDirection * Time.deltaTime * MoveSpeed);
+
+            case MoveType.AddForceRelative:
+            // Using Rigidbody.AddForce
+            rb.AddForce((transform.forward * MoveDirection.z * Time.deltaTime * MoveSpeed) * 10 + (transform.right * MoveDirection.x * Time.deltaTime * MoveSpeed) * 10);
+            break;
+
+            case MoveType.AddForceAccel:
+            // Using Rigidbody.AddForce
+            rb.AddForce(MoveDirection, ForceMode.Acceleration);
+            break;
+
+            case MoveType.AddForceImpulse:
+            // Using Rigidbody.AddForce
+            rb.AddForce(MoveDirection, ForceMode.Impulse);
+            break;
+
+            case MoveType.AddForceVelocity:
+            // Using Rigidbody.AddForce
+            rb.AddForce(MoveDirection, ForceMode.VelocityChange);
             break;
         }
     }
@@ -69,6 +83,9 @@ public class Movement : MonoBehaviour
         TransformRelative,
         Translate,
         AddForce,
-        CharacterController,
+        AddForceRelative,
+        AddForceAccel,
+        AddForceImpulse,
+        AddForceVelocity,
     }
 }
